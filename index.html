@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INFINITQ's Survey</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1 id="title">INFINITQ's Questions</h1>
+      <p id="description">
+        Really simple questions for you to answer (if you are free enough)
+      </p>
+    </header>
+    <br />
+    <main>
+      <form action="get">
+        <div>
+          <label for="name" id="name-label">Who are you?</label>
+          <br />
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter you name..."
+            required
+          />
+        </div>
+        <br />
+        <div>
+          <label for="email" id="email-label">How can I contact you?</label>
+          <br />
+          <input
+            type="email"
+            id="name"
+            placeholder="Enter your email..."
+            required
+          />
+        </div>
+        <br />
+        <div>
+          <label for="age" id="number-label">How old are you?</label>
+          <br />
+          <input
+            type="number"
+            id="number"
+            min="1"
+            max="200"
+            placeholder="Age..."
+          />
+        </div>
+        <br />
+        <div>
+          <p>What are your pronouns?</p>
+          <input type="radio" name="gender" value="male" checked /><label
+            for="gender"
+            class="pronoun"
+            >He/Him</label
+          >
+
+          <input type="radio" name="gender" value="female" /><label
+            for="gender"
+            class="pronoun"
+            >She/Her</label
+          >
+
+          <input type="radio" name="gender" value="can't say" /><label
+            for="gender"
+            class="pronoun"
+            >They/Them</label
+          >
+        </div>
+        <br />
+        <div>
+          <p>What is your current role?</p>
+          <select name="role" id="dropdown" required>
+            <option disabled selected text>Select your current role</option>
+            <option value="student">Student</option>
+            <option value="full-time-job">Full Time Job</option>
+            <option value="full-time-learner">Full Time Learner</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+            <option value="others">Ohers</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <p>What is your favourite flavor? (check all you like)</p>
+          <input type="checkbox" name="chocolate" value="chocolate" /><label
+            for="flavor"
+            class="flavor"
+            >Chocolate</label
+          >
+          <br />
+          <input type="checkbox" name="strawberry" value="strawberry" /><label
+            for="flavor"
+            class="flavor"
+            >Strawberry</label
+          >
+          <br />
+          <input
+            type="checkbox"
+            name="butterscotch"
+            value="butterscotch"
+          /><label for="flavor" class="flavor">Butterscotch</label>
+          <br />
+          <input type="checkbox" name="pineapple" value="pineapple" /><label
+            for="flavor"
+            class="flavor"
+            >Pineapple</label
+          >
+        </div>
+        <br />
+        <div>
+          <p>Anything else you want to tell me?</p>
+          <textarea name="comments" id="comments" cols="40" rows="5" placeholder="Anything would be fine here..."></textarea>
+        </div>
+        <br />
+        <br />      
+        <button id="Submit">Submit</button>
+      </form>
+    </main>
+  </body>
+</html>

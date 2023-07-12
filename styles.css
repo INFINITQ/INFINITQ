@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+}
+
+#title {
+    text-align: center;
+    color: rgb(255, 0, 0);
+    font-style: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3em;
+}
+
+#description {
+    text-align: center;
+    color: rgb(230, 169, 4);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+}
+
+body {
+    background-color: rgba(0, 0, 124, 0.849);
+}
+
+main {
+    margin: 15px 30px;
+    background-color: lightblue;
+    border: 2px solid white;
+    border-radius: 10px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding: 60px 20px 60px 50px;
+    font-size: larger;
+}
+
+#name {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+#number {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.pronoun {
+     margin-right: 20px;
+     color: rgb(0, 0, 0);
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 8px;
+
+}
+
+.flavor {
+    padding: 14px;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+#Submit {
+    background-color: rgb(148, 36, 253);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: whitesmoke;
+    width: 100%;
+    cursor: pointer;
+}
+
+#Submit:hover {
+    background-color: rgb(179, 102, 252);
+}
