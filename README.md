@@ -1,7 +1,5 @@
 - 👋 Hi, I’m @INFINITQ
-- 👀 I’m interested in coding
-- 🌱 I’m currently learning Web Development
-- 💞️ I’m looking to collaborate on Front end Development
+- 👀 I’m interested in .....-_-.....
 - 📫 How to reach me through email : abhishekpareekjp17@gmail.com
 
 <!---
