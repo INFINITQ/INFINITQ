@@ -1,0 +1,7 @@
+# Built by scripts/build_cards.py. The Action publishes these to the `output` branch.
+dist/
+# Local preview and cached GitHub data
+.preview/
+.cache/
+__pycache__/
+.claude/
