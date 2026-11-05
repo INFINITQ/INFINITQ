@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Build the pit-wall cards for the INFINITQ profile README.
+"""Build the cards for the INFINITQ profile README.
 
     python scripts/build_cards.py            # live cards from GitHub data -> dist/
     python scripts/build_cards.py assets     # static art -> assets/ (no network)
     python scripts/build_cards.py all        # both
+
+Every card is written twice, NAME-light.svg and NAME-dark.svg, one per GitHub
+theme; README.md picks the matching one with <picture>.
 
 GitHub data comes from the GraphQL API. With GITHUB_TOKEN set (as in the
 Action) the script calls the API itself; without it, it goes through the gh
@@ -31,7 +34,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import pitwall_svg as svg  # noqa: E402
+import profile_svg as svg  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 API = "https://api.github.com/graphql"
@@ -67,7 +70,7 @@ def _post(query: str, token: str, attempts: int = 3) -> dict:
         req = urllib.request.Request(API, data=body, headers={
             "Authorization": f"bearer {token}",
             "Content-Type": "application/json",
-            "User-Agent": "infinitq-pit-wall",
+            "User-Agent": "infinitq-profile-cards",
         })
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
@@ -244,33 +247,34 @@ def summarize(data: dict, cfg: dict, today: date) -> dict:
 # ------------------------------------------------------------------ output
 
 def check_config(cfg: dict) -> None:
-    for msg in cfg["radio"]:
-        if len(msg) > svg.RADIO_MAX_CHARS:
-            raise SystemExit(f"Team radio message is {len(msg)} characters; the strip fits "
-                             f"{svg.RADIO_MAX_CHARS}: {msg!r}")
+    missing = [k for k in ("first_name", "last_name", "handle", "tagline", "line") if not cfg["person"].get(k)]
+    if missing:
+        raise SystemExit(f"profile.config.json: person is missing {', '.join(missing)}")
     for p in cfg["projects"]:
-        if len(p["sectors"]) != 3:
-            raise SystemExit(f"Project {p['id']!r} needs exactly 3 sectors")
+        if len(p["metrics"]) != 3:
+            raise SystemExit(f"Project {p['id']!r} needs exactly 3 metrics (one per sector)")
+        if not re.fullmatch(r"[a-z0-9-]+", p["id"]):
+            raise SystemExit(f"Project id {p['id']!r} becomes a file name: use a-z, 0-9 and -")
 
 
 def static_assets(cfg: dict) -> dict[str, str]:
-    return {
-        "header.svg": svg.header(cfg),
-        "ml-season.svg": svg.ml_season(cfg),
-        "finish.svg": svg.finish(cfg),
-    }
+    out = {}
+    for t in svg.THEMES:
+        out[f"ml-season-{t.name}.svg"] = svg.ml_season(cfg, t)
+        out[f"footer-{t.name}.svg"] = svg.footer(t)
+    return out
 
 
 def live_cards(cfg: dict, stats: dict) -> dict[str, str]:
-    cards = {
-        "driver-card.svg": svg.driver_card(cfg, stats),
-        "telemetry.svg": svg.telemetry(stats),
-        "pit-wall.svg": svg.pit_wall(stats),
-    }
-    for p in cfg["projects"]:
-        cards[f"project-{p['id']}.svg"] = svg.project_card(
-            p, stats["repo_facts"].get(p["repo"]), stats["updated"], cfg["login"])
-    return cards
+    out = {}
+    for t in svg.THEMES:
+        out[f"hero-{t.name}.svg"] = svg.hero(cfg, stats, t)
+        out[f"telemetry-{t.name}.svg"] = svg.telemetry(stats, t)
+        out[f"languages-{t.name}.svg"] = svg.languages(stats, t)
+        for p in cfg["projects"]:
+            out[f"project-{p['id']}-{t.name}.svg"] = svg.project_card(
+                p, stats["repo_facts"].get(p["repo"]), stats["updated"], cfg["login"], t)
+    return out
 
 
 def validate(name: str, doc: str) -> None:
@@ -300,7 +304,7 @@ def write_all(out_dir: Path, files: dict[str, str]) -> None:
 
 
 def main(argv=None) -> None:
-    ap = argparse.ArgumentParser(description="Build the pit-wall cards for the INFINITQ profile README.")
+    ap = argparse.ArgumentParser(description="Build the cards for the INFINITQ profile README.")
     ap.add_argument("what", nargs="?", choices=("live", "assets", "all"), default="live",
                     help="live cards (needs GitHub data), static art, or both (default: live)")
     ap.add_argument("--config", default=str(ROOT / "profile.config.json"))

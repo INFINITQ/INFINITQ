@@ -35,13 +35,28 @@ PAGE = """<!doctype html>
 <style>
   body {{ margin: 0; background: #ffffff; }}
   @media (prefers-color-scheme: dark) {{ body {{ background: #0d1117; }} }}
-  .markdown-body {{ box-sizing: border-box; max-width: 892px; margin: 0 auto; padding: 32px 24px; }}
+  /* github.com shows a profile README 831 px wide at desktop sizes */
+  .markdown-body {{ box-sizing: border-box; max-width: 879px; margin: 0 auto; padding: 32px 24px; }}
 </style></head>
 <body><article class="markdown-body">
 {body}
-</article></body></html>
+</article>
+<script>
+// github.com swaps <picture> images to match the theme with its own script (the
+// <img> sits inside a link, so the browser can't); this stands in for it.
+const dark = matchMedia('(prefers-color-scheme: dark)');
+function theme() {{
+  for (const pic of document.querySelectorAll('picture')) {{
+    const img = pic.querySelector('img'), src = pic.querySelector('source[media*=dark]');
+    if (!img) continue;
+    img.dataset.light ??= img.getAttribute('src');
+    img.src = dark.matches && src ? src.getAttribute('srcset') : img.dataset.light;
+  }}
+}}
+theme(); dark.addEventListener('change', theme);
+</script></body></html>
 """
-VIEWS_STUB = "https://img.shields.io/badge/PROFILE_VIEWS-preview-E10600?style=for-the-badge"
+VIEWS_STUB = "https://img.shields.io/badge/profile_views-preview-59636e?style=flat-square"
 
 
 def render(markdown: str) -> str:
@@ -49,7 +64,9 @@ def render(markdown: str) -> str:
     if not gh:
         raise SystemExit("preview.py needs the gh CLI: it calls GitHub's Markdown API.")
     with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as fh:
-        json.dump({"text": markdown, "mode": "gfm", "context": REPO}, fh)
+        # "markdown" is how GitHub renders README files; "gfm" is comment-style, where
+        # every newline becomes a line break.
+        json.dump({"text": markdown, "mode": "markdown"}, fh)
         body = Path(fh.name)
     try:
         run = subprocess.run([gh, "api", "markdown", "--input", str(body)],

@@ -1,77 +1,60 @@
 {
   "login": "INFINITQ",
-  "driver": {
+  "person": {
     "first_name": "Abhishek",
     "last_name": "Pareek",
-    "code": "INFINITQ",
-    "country": "IND",
+    "handle": "INFINITQ",
     "tagline": "Systems × AI",
-    "header_line": "Founder @ Areth · B.Tech CSE @ BIT Mesra '27",
-    "facts": [
-      ["TEAM", "Areth · Founder"],
-      ["ALSO", "Shipd · AI Dataset Engineer"],
-      ["GARAGE", "BIT Mesra · B.Tech CSE '27"]
-    ]
+    "line": "Founder, Areth · B.Tech CSE, BIT Mesra '27"
   },
-  "radio": [
-    "Lathe cold-starts in 481 ms. Quick-open: 5 ms over 20k files.",
-    "Hearth runs gpt-oss-20b on my own GPU at up to 87 tok/s.",
-    "Folio: offline PDF + Office apps. Files never leave your PC.",
-    "170+ applied-ML challenges this season. Vision to genomics.",
-    "Founder @ Areth: a context-aware layer for your desktop."
-  ],
   "language_exclude": [],
   "projects": [
     {
       "id": "lathe",
       "repo": "Lathe",
       "name": "Lathe",
-      "accent": "#E10600",
       "summary": "Native code editor for Windows 11, no VS Code inside",
       "stack": ["Rust", "Tauri 2", "React 19", "CodeMirror 6"],
-      "sectors": [
-        {"value": "481 ms", "label": "start to first paint", "was": "was 593 ms", "timing": "green"},
-        {"value": "5 ms", "label": "quick-open, 20k files", "was": "was 33 ms", "timing": "purple"},
-        {"value": "153 ms", "label": "open a 10 MB file", "was": "was 181 ms", "timing": "green"}
+      "metrics": [
+        {"value": "481 ms", "label": "start to first paint", "note": "was 593 ms"},
+        {"value": "5 ms", "label": "quick-open, 20k files", "note": "was 33 ms"},
+        {"value": "153 ms", "label": "open a 10 MB file", "note": "was 181 ms"}
       ]
     },
     {
       "id": "hearth",
       "repo": "Hearth",
       "name": "Hearth",
-      "accent": "#FF8000",
-      "summary": "Local LLM chat + coding agent on your own GPU",
+      "summary": "Local LLM chat and coding agent on your own GPU",
       "stack": ["Rust", "Tauri 2", "llama.cpp", "MCP"],
-      "sectors": [
-        {"value": "55–87", "label": "tok/s, gpt-oss-20b", "was": "on an RTX 5070", "timing": "purple"},
-        {"value": "39–44", "label": "tok/s, Qwen3.6 35B", "was": "on an RTX 5070", "timing": "green"},
-        {"value": "16 s", "label": "agent coding task", "was": "with gpt-oss-20b", "timing": "yellow"}
+      "metrics": [
+        {"value": "55–87", "label": "tok/s, gpt-oss-20b", "note": "RTX 5070"},
+        {"value": "39–44", "label": "tok/s, Qwen3.6 35B", "note": "RTX 5070"},
+        {"value": "16 s", "label": "agent coding task", "note": "gpt-oss-20b"}
       ]
     },
     {
       "id": "folio",
       "repo": "EverydayApps",
       "name": "Folio",
-      "accent": "#3671C6",
       "summary": "Offline PDF, Word, Excel and PowerPoint apps",
       "stack": ["Rust", "Tauri 2", "React 19", "Fluent UI"],
-      "sectors": [
-        {"value": "3.4 MB", "label": "installer", "was": "", "timing": "purple"},
-        {"value": "0.5 s", "label": "window paints", "was": "100-page PDF", "timing": "green"},
-        {"value": "0", "label": "network calls", "was": "proven by test", "timing": "green"}
+      "metrics": [
+        {"value": "3.4 MB", "label": "installer", "note": ""},
+        {"value": "0.5 s", "label": "window paints", "note": "100-page PDF"},
+        {"value": "0", "label": "network calls", "note": "proven by test"}
       ]
     },
     {
       "id": "store",
       "repo": "retailStoreIntelligence",
       "name": "Store Intelligence",
-      "accent": "#27F4D2",
       "summary": "CCTV footage in, live retail analytics out",
       "stack": ["Python", "YOLOv8", "FastAPI", "Postgres", "Redis"],
-      "sectors": [
-        {"value": "8–10 fps", "label": "tracking on a CPU", "was": "YOLOv8 + ByteTrack", "timing": "green"},
-        {"value": "7", "label": "visitor event types", "was": "entry to queue drop", "timing": "purple"},
-        {"value": "LIVE", "label": "dashboard feed", "was": "WebSocket + metrics", "timing": "yellow"}
+      "metrics": [
+        {"value": "8–10 fps", "label": "tracking on a CPU", "note": "YOLOv8 + ByteTrack"},
+        {"value": "7", "label": "visitor event types", "note": "entry to queue drop"},
+        {"value": "Live", "label": "dashboard feed", "note": "WebSocket + metrics"}
       ]
     }
   ],
@@ -89,7 +72,7 @@
       {"name": "Physical sciences", "value": 10},
       {"name": "Audio & speech", "value": 9}
     ],
-    "garages": ["Google Cloud", "RunPod", "Modal", "Kaggle"],
-    "parts": ["PyTorch", "timm", "HF Transformers", "LoRA", "U-Net", "LightGBM"]
+    "compute": ["Google Cloud", "RunPod", "Modal", "Kaggle"],
+    "tools": ["PyTorch", "timm", "HF Transformers", "LoRA", "U-Net", "LightGBM"]
   }
 }

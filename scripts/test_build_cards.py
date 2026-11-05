@@ -1,4 +1,4 @@
-"""Tests for the pit-wall card generator.
+"""Tests for the profile card generator.
 
     python -m unittest discover -s scripts -p "test_*.py" -v
 
@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_cards as bc  # noqa: E402
-import pitwall_svg as svg  # noqa: E402
+import profile_svg as svg  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = json.loads((ROOT / "profile.config.json").read_text(encoding="utf-8"))
@@ -133,12 +133,36 @@ class SvgTests(unittest.TestCase):
 
     def test_every_card_is_valid_and_self_contained(self):
         cards = self.cards()
-        self.assertEqual(len(cards), 3 + 3 + len(CONFIG["projects"]))
+        self.assertEqual(len(cards), 2 * (2 + 3 + len(CONFIG["projects"])))  # light + dark of each
         for name, doc in cards.items():
             with self.subTest(name=name):
                 bc.validate(name, doc)  # well-formed, small, nothing GitHub would block
                 title = ET.fromstring(doc).find(f"{SVG_NS}title")
                 self.assertTrue(title is not None and title.text.strip())
+
+    def test_every_card_comes_in_both_themes(self):
+        cards = self.cards()
+        for name in [n for n in cards if n.endswith("-light.svg")]:
+            dark = name.replace("-light.svg", "-dark.svg")
+            with self.subTest(name=name):
+                self.assertIn(dark, cards)
+                self.assertIn(svg.LIGHT.ink, cards[name])
+                self.assertNotIn(svg.LIGHT.ink, cards[dark])
+                self.assertIn(svg.DARK.ink, cards[dark])
+
+    def test_quiet_type_and_one_accent(self):
+        for name, doc in self.cards().items():
+            with self.subTest(name=name):
+                self.assertNotIn("italic", doc)
+                self.assertNotIn("oblique", doc)
+                # transparent cards: no full-bleed background rectangle
+                self.assertNotRegex(doc, r'<rect[^>]*width="(840|412)"[^>]*height="\d+"[^>]*fill="#')
+
+    def test_hero_and_project_text(self):
+        cards = self.cards()
+        self.assertIn("Abhishek Pareek", cards["hero-dark.svg"])
+        self.assertIn("S3", cards["project-lathe-light.svg"])
+        self.assertIn("481 ms", cards["project-lathe-light.svg"])
 
     def test_validate_rejects_external_resources(self):
         bad = '<svg xmlns="http://www.w3.org/2000/svg"><image href="https://example.com/x.png"/></svg>'
@@ -147,27 +171,24 @@ class SvgTests(unittest.TestCase):
 
     def test_text_is_escaped(self):
         self.assertEqual(svg.esc('<a & "b">'), "&lt;a &amp; &quot;b&quot;&gt;")
-        ET.fromstring(svg.doc(10, 10, svg.text(0, 0, "R&D <3", 10), title="x & y"))
+        ET.fromstring(svg.doc(10, 10, svg.text(0, 0, "R&D <3", 10, "#000"), title="x & y", desc="a < b"))
 
     def test_fit_shortens_with_an_ellipsis(self):
         s = svg.fit("a fairly long project summary line", 80, 14)
         self.assertTrue(s.endswith("…"))
         self.assertLessEqual(svg.text_width(s, 14), 80)
 
-    def test_discrete_wraps_and_starts_at_zero(self):
-        kt, vals = svg.discrete([(-1, 5), (2, 0)], 10)
-        self.assertEqual(kt, "0.00000;0.20000;0.90000")
-        self.assertEqual(vals, "5;0;5")  # at t=0 the wrapped event from t=9 still holds
-
     def test_monotone_path_never_overshoots(self):
         path = svg.monotone_path([(0, 100), (10, 0), (20, 100), (30, 100), (40, 50)])
         ys = [float(v) for v in re.findall(r"-?\d+(?:\.\d+)?", path)][1::2]
         self.assertTrue(all(-0.01 <= y <= 100.01 for y in ys))
 
-    def test_readable_lightens_only_dark_colours(self):
-        self.assertEqual(svg.readable("#3178C6"), "#3178C6")
-        self.assertNotEqual(svg.readable("#012456"), "#012456")
-        self.assertEqual(svg.readable(None), svg.GREY)
+    def test_language_colours_stay_visible(self):
+        self.assertEqual(svg.lang_color("#3178C6", svg.DARK), "#3178C6")
+        self.assertNotEqual(svg.lang_color("#012456", svg.DARK), "#012456")  # PowerShell on dark
+        self.assertEqual(svg.lang_color("#012456", svg.LIGHT), "#012456")
+        self.assertNotEqual(svg.lang_color("#F1E05A", svg.LIGHT), "#F1E05A")  # JavaScript on white
+        self.assertEqual(svg.lang_color(None, svg.LIGHT), svg.GREY)
 
     def test_ago(self):
         self.assertEqual(svg.ago(TODAY, TODAY), "today")
@@ -178,13 +199,12 @@ class SvgTests(unittest.TestCase):
 
 
 class ConfigTests(unittest.TestCase):
-    def test_radio_messages_fit_the_strip(self):
-        for msg in CONFIG["radio"]:
-            self.assertLessEqual(len(msg), svg.RADIO_MAX_CHARS, msg)
+    def test_check_config_accepts_the_real_config(self):
+        bc.check_config(CONFIG)
 
-    def test_check_config_rejects_a_long_radio_message(self):
+    def test_check_config_wants_three_metrics(self):
         cfg = copy.deepcopy(CONFIG)
-        cfg["radio"] = ["x" * (svg.RADIO_MAX_CHARS + 1)]
+        cfg["projects"][0]["metrics"] = cfg["projects"][0]["metrics"][:2]
         with self.assertRaises(SystemExit):
             bc.check_config(cfg)
 
