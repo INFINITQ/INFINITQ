@@ -3,7 +3,8 @@
   scripts/build_cards.py draws every card from profile.config.json, once per GitHub theme,
   and <picture> shows the one that matches the reader's. Live cards come from the `output`
   branch, redrawn daily by .github/workflows/profile.yml.
-  A linked image keeps its <a> inside the <picture>: GitHub's renderer breaks <a><picture>.
+  A linked image wraps its whole <picture> in the <a>: github.com only swaps the theme
+  when the <img> sits directly inside the <picture>.
 -->
 
 <p>
@@ -34,16 +35,16 @@ Microsoft Learn Student Ambassador (Graphics co-lead) · Techverse senior core t
 ### Projects
 
 <p>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/Lathe/main/docs/screenshots/m9-dark.png"><a href="https://github.com/INFINITQ/Lathe"><img src="https://raw.githubusercontent.com/INFINITQ/Lathe/main/docs/screenshots/m9-light.png" width="100%" alt="Lathe, my code editor, with a Markdown file open next to its live preview"></a></picture>
+  <a href="https://github.com/INFINITQ/Lathe"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/Lathe/main/docs/screenshots/m9-dark.png"><img src="https://raw.githubusercontent.com/INFINITQ/Lathe/main/docs/screenshots/m9-light.png" width="100%" alt="Lathe, my code editor, with a Markdown file open next to its live preview"></picture></a>
   <br>
   <sub>Lathe, my native code editor for Windows 11. No VS Code inside.</sub>
 </p>
 
 <p>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-lathe-dark.svg"><a href="https://github.com/INFINITQ/Lathe"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-lathe-light.svg" width="49%" alt="Lathe: native code editor for Windows 11 (Rust, Tauri 2, React 19, CodeMirror 6). Start to first paint 481 ms, was 593. Quick-open over 20,000 files 5 ms, was 33. Opens a 10 MB file in 153 ms, was 181."></a></picture>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-hearth-dark.svg"><a href="https://github.com/INFINITQ/Hearth"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-hearth-light.svg" width="49%" alt="Hearth: local LLM chat and coding agent on your own GPU (Rust, Tauri 2, llama.cpp, MCP). gpt-oss-20b at 55 to 87 tokens per second and Qwen3.6 35B at 39 to 44 on an RTX 5070; an agent coding task in 16 seconds."></a></picture>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-folio-dark.svg"><a href="https://github.com/INFINITQ/EverydayApps"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-folio-light.svg" width="49%" alt="Folio: offline PDF, Word, Excel and PowerPoint apps (Rust, Tauri 2, React 19, Fluent UI). 3.4 MB installer, the window paints in about 0.5 s, and zero network calls, proven by test."></a></picture>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-store-dark.svg"><a href="https://github.com/INFINITQ/retailStoreIntelligence"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-store-light.svg" width="49%" alt="Store Intelligence: CCTV footage in, live retail analytics out (Python, YOLOv8, FastAPI, Postgres, Redis). Tracks people at 8 to 10 fps on a CPU, emits 7 visitor event types and feeds a live dashboard."></a></picture>
+  <a href="https://github.com/INFINITQ/Lathe"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-lathe-dark.svg"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-lathe-light.svg" width="49%" alt="Lathe: native code editor for Windows 11 (Rust, Tauri 2, React 19, CodeMirror 6). Start to first paint 481 ms, was 593. Quick-open over 20,000 files 5 ms, was 33. Opens a 10 MB file in 153 ms, was 181."></picture></a>
+  <a href="https://github.com/INFINITQ/Hearth"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-hearth-dark.svg"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-hearth-light.svg" width="49%" alt="Hearth: local LLM chat and coding agent on your own GPU (Rust, Tauri 2, llama.cpp, MCP). gpt-oss-20b at 55 to 87 tokens per second and Qwen3.6 35B at 39 to 44 on an RTX 5070; an agent coding task in 16 seconds."></picture></a>
+  <a href="https://github.com/INFINITQ/EverydayApps"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-folio-dark.svg"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-folio-light.svg" width="49%" alt="Folio: offline PDF, Word, Excel and PowerPoint apps (Rust, Tauri 2, React 19, Fluent UI). 3.4 MB installer, the window paints in about 0.5 s, and zero network calls, proven by test."></picture></a>
+  <a href="https://github.com/INFINITQ/retailStoreIntelligence"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-store-dark.svg"><img src="https://raw.githubusercontent.com/INFINITQ/INFINITQ/output/project-store-light.svg" width="49%" alt="Store Intelligence: CCTV footage in, live retail analytics out (Python, YOLOv8, FastAPI, Postgres, Redis). Tracks people at 8 to 10 fps on a CPU, emits 7 visitor event types and feeds a live dashboard."></picture></a>
 </p>
 
 <details>
